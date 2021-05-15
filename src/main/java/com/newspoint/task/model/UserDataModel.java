@@ -16,6 +16,7 @@ public class UserDataModel {
     private Long userDataId;
     private String firstName;
     private String lastName;
-    private LocalDate birthDate;
+    private int birthDate;
+    private LocalDate birth;
     private Long phoneNumber;
 }

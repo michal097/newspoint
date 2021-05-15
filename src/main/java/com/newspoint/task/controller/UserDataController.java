@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class UserDataController {
     private final UserService userService;
     private final UploadFileService uploadFileService;
@@ -22,7 +23,7 @@ public class UserDataController {
     }
 
     @PostMapping("uploadFile")
-    public void uploadFile(@RequestParam MultipartFile file) {
+    public void uploadFile(@RequestParam MultipartFile file) throws Exception {
         this.uploadFileService.uploadFile(file);
         this.userService.retrieveData();
     }

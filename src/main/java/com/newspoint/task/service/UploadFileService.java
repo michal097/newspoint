@@ -24,12 +24,13 @@ public class UploadFileService {
     private String DIRECTORY;
     public static String getFileName;
 
-    public void uploadFile(MultipartFile file) {
+    public void uploadFile(MultipartFile file) throws Exception {
 
-        try {
             getFileName = file.getOriginalFilename();
             if(!Objects.requireNonNull(getFileName).endsWith(".csv")){
                 log.error("This is not csv file!");
+                log.error("Cannot upload file with name {}", file.getOriginalFilename());
+                throw new Exception();
             }else {
 
                 var copyLocation = Paths
@@ -37,10 +38,7 @@ public class UploadFileService {
                 Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
                 log.info("File with name {} has been uploaded", getFileName);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("Cannot upload file with name {}, error stack trace {}", file.getOriginalFilename(), e);
-        }
+
     }
 
     public List<String> dataFromCSV() {

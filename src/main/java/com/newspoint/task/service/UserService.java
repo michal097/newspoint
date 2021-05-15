@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
@@ -44,7 +45,9 @@ public class UserService extends UploadFileService{
             userData.setFirstName(dataArray[0].trim());
             userData.setLastName(dataArray[1].trim());
             try {
-                userData.setBirthDate(LocalDate.parse(dataArray[2], formatter));
+                var birthD = LocalDate.parse(dataArray[2], formatter);
+                userData.setBirth(birthD);
+                userData.setBirthDate(Period.between(birthD, LocalDate.now()).getYears());
             } catch (Exception e) {
                 log.error("Invalid date");
                 hasErrors =true;
@@ -80,7 +83,7 @@ public class UserService extends UploadFileService{
         var oldestUser = userDataRepository.findAll()
                 .stream()
                 .filter(user -> user.getPhoneNumber() != null )
-                .min(Comparator.comparing(UserDataModel::getBirthDate));
+                .min(Comparator.comparing(UserDataModel::getBirth));
         if(oldestUser.isPresent()){
             return oldestUser.get();
         }
@@ -93,7 +96,7 @@ public class UserService extends UploadFileService{
         if(isUserPresent) {
             userDataRepository.deleteById(id);
             log.info("user has been deleted");
-        }
+        }else
         log.warn("There is no such user");
     }
 
