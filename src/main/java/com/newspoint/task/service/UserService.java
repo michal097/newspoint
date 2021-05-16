@@ -46,7 +46,7 @@ public class UserService extends UploadFileService {
             userData.setFirstName(dataArray[0]);
             userData.setLastName(dataArray[1]);
             try {
-                var birthD = LocalDate.parse(dataArray[2], formatter);
+                var birthD = LocalDate.parse(checkDate(dataArray[2]), formatter);
                 userData.setBirth(birthD);
                 userData.setBirthDate(Period.between(birthD, LocalDate.now())
                         .getYears());
@@ -88,6 +88,17 @@ public class UserService extends UploadFileService {
 
     public boolean checkPhoneNumberValid(String pNum) {
         return pNum.matches("^[0-9]*$") && pNum.length() == 9;
+    }
+
+    public String checkDate(String date){
+        var splitDate = date.split("\\.");
+        for(int i=1; i<splitDate.length; i++){
+            if (splitDate[i].matches("^[0-9]$")){
+                splitDate[i] = "0" + splitDate[i];
+            }
+        }
+        var concatArray = Arrays.stream(splitDate).reduce((a,b)->a+"."+b);
+        return concatArray.orElse(date);
     }
 
     public UserDataModel getOldestUserWithPhone() {
