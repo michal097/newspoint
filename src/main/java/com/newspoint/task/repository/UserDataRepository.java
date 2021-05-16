@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface UserDataRepository extends CrudRepository<UserDataModel, Long> {
     Page<UserDataModel> findAll(Pageable pageable);
+
     List<UserDataModel> findAll();
 }

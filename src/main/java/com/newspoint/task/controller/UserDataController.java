@@ -29,31 +29,33 @@ public class UserDataController {
     }
 
     @GetMapping({"allUsersPagination/{page}", "/allUsersPagination/{page}/{size}"})
-    public List<UserDataModel> usersPaging(@PathVariable int page, @PathVariable(required = false) Integer size){
-       return userService.findAllUsersWithPagination(page, size);
+    public List<UserDataModel> usersPaging(@PathVariable int page, @PathVariable(required = false) Integer size) {
+        return userService.findAllUsersWithPagination(page, size);
     }
 
     @GetMapping("getCountUsers")
-    public long getCountUsers(){
+    public long getCountUsers() {
         return userService.countAllUsers();
     }
+
     @GetMapping("oldestUser")
-    public Object getTheOldestUserWithPhoneNumber(){
+    public Object getTheOldestUserWithPhoneNumber() {
         return userService.getOldestUserWithPhone();
     }
 
     @DeleteMapping("deleteSpecUser/{id}")
-    public void deleteUser(@PathVariable Long id){
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteSpecUser(id);
     }
 
     @DeleteMapping("deleteAll")
-    public void deleteAllUsers(){
-       userService.deleteAllUsers();
+    public void deleteAllUsers() {
+        userService.deleteAllUsers();
     }
+
     @GetMapping("search/{lastName}")
     //List in case there is more users with same last name
-    public List<UserDataModel> findUserByLastName(@PathVariable String lastName){
+    public List<UserDataModel> findUserByLastName(@PathVariable String lastName) {
         return userService.findSpecUserByLastName(lastName);
     }
 }

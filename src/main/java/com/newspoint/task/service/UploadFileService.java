@@ -26,18 +26,18 @@ public class UploadFileService {
 
     public void uploadFile(MultipartFile file) throws Exception {
 
-            getFileName = file.getOriginalFilename();
-            if(!Objects.requireNonNull(getFileName).endsWith(".csv")){
-                log.error("This is not csv file!");
-                log.error("Cannot upload file with name {}", file.getOriginalFilename());
-                throw new Exception();
-            }else {
+        getFileName = file.getOriginalFilename();
+        if (!Objects.requireNonNull(getFileName).endsWith(".csv")) {
+            log.error("This is not csv file!");
+            log.error("Cannot upload file with name {}", file.getOriginalFilename());
+            throw new Exception();
+        } else {
 
-                var copyLocation = Paths
-                        .get(DIRECTORY + File.separator + StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename())));
-                Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
-                log.info("File with name {} has been uploaded", getFileName);
-            }
+            var copyLocation = Paths
+                    .get(DIRECTORY + File.separator + StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename())));
+            Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
+            log.info("File with name {} has been uploaded", getFileName);
+        }
 
     }
 
@@ -45,8 +45,8 @@ public class UploadFileService {
         List<String> filesContent = new ArrayList<>();
         try {
             filesContent = Files.lines(Paths.get(DIRECTORY + "/" + getFileName)).collect(toList());
-            return filesContent.subList(1,filesContent.size());
-        }catch (IOException e){
+            return filesContent.subList(1, filesContent.size());
+        } catch (IOException e) {
             log.error("There is no such file to read");
         }
         return filesContent;
