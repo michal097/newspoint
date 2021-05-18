@@ -51,7 +51,7 @@ public class UserService extends UploadFileService {
                 userData.setBirthDate(Period.between(birthD, LocalDate.now())
                         .getYears());
             } catch (Exception e) {
-                log.error("Invalid date");
+                log.error("Invalid date format: {}",dataArray[2]);
                 hasErrors = true;
             }
             if (dataArray.length > 3 && checkPhoneNumberValid(dataArray[3])) {
@@ -67,7 +67,7 @@ public class UserService extends UploadFileService {
                     userData.setPhoneNumber(Long.parseLong(dataArray[3]));
                 } else {
                     hasErrors = true;
-                    log.warn("Such phone number already exists in database!");
+                    log.warn("Such phone number already exists in database! User: {}", phoneAlreadyPresent.get());
                 }
             }
             if (!hasErrors) {

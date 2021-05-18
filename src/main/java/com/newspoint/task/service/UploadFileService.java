@@ -1,6 +1,7 @@
 package com.newspoint.task.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -30,7 +31,7 @@ public class UploadFileService {
         if (!Objects.requireNonNull(getFileName).endsWith(".csv")) {
             log.error("This is not csv file!");
             log.error("Cannot upload file with name {}", file.getOriginalFilename());
-            throw new Exception();
+            throw new FileUploadException("Cannot upload file, passed file does not have appropriate extension .csv");
         } else {
 
             var copyLocation = Paths
